@@ -535,7 +535,6 @@ img {
   font-size: 24px;
   font-weight: 500;
   margin: 0 auto 0 20px;
-
 }
 
 .basket__item a {
@@ -679,6 +678,120 @@ img {
   font-size: 12px;
   width: max-content;
   margin: 0 auto;
+}
+
+.admin__wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 70px 150px 100px;
+}
+
+.admin h1 {
+  font-size: 48px;
+  margin: 0 0 50px;
+  font-weight: 500;
+}
+
+.admin__list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.order__wrapper {
+  display: flex;
+  padding: 15px 20px;
+  align-items: center;
+  background: #394773;
+  border-bottom: 2px solid #18244a;
+  color: #fffbf8;
+}
+
+.order h2 {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 20px 0;
+}
+
+.order__link {
+  margin-right: 20px;
+  background: #fffbf8;
+  color: #18244a;
+  text-decoration: none;
+  display: block;
+  padding: 10px 20px;
+  font-size: 16px;
+  transition: all 0.1s linear;
+}
+
+.order__link:hover,
+.order__link:focus {
+  outline: none;
+  background: #dfe2ff;
+}
+
+.order__button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: #fffbf8;
+  position: relative;
+  cursor: pointer;
+  margin: 0 0 0 auto;
+  transition: all 0.1s linear;
+}
+
+.order__button.active::before {
+  transform: rotate(0);
+}
+
+.order__button:hover,
+.order__button:focus {
+  outline: none;
+  background: #dfe2ff;
+}
+
+.order__button::before,
+.order__button::after {
+  content: '';
+  transition: all 0.1s linear;
+  position: absolute;
+  height: 1px;
+  width: 15px;
+  background: #18244a;
+  top: 50%;
+  left: calc(50% - 7px);
+}
+
+.order__button::before {
+  transform: rotate(90deg);
+}
+
+.order__list {
+  padding: 0 0 0 60px;
+  list-style: none;
+  margin: 0;
+  display: none;
+}
+
+.order__list.active {
+  display: block;
+}
+
+.order__item {
+  display: flex;
+  padding: 15px 20px;
+  align-items: center;
+  background: #4f5f92;
+  border-bottom: 2px solid #18244a;
+  color: #fffbf8;
+}
+
+.order__item h3 {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 auto 0 20px;
 }
 
 .no-scroll {

@@ -3,6 +3,11 @@
 require_once '../functions/connect.php';
 require_once "../functions/check_status.php";
 
+$role = check_status();
+if ($role === "user") {
+    header("location: index.php");
+}
+
 session_start();
 
 $dbc = get_dbc();
@@ -81,6 +86,7 @@ $orders = $result -> fetch_all(MYSQLI_ASSOC);
 <main>
   <section class="admin">
     <div class="admin__wrapper">
+      <h1>Админ-панель</h1>
         <?php
         if (count($orders) === 0) {
             ?>
@@ -90,10 +96,39 @@ $orders = $result -> fetch_all(MYSQLI_ASSOC);
             ?>
           <ul class="admin__list">
               <?php
+              $counter = 1;
               foreach ($orders as $order) {
                   ?>
-                
+                <li class="admin__item order">
+                  <div class="order__wrapper">
+                    <h2>Заказ №<?= $order['id'] ?></h2>
+                    <a class="order__link"
+                       href="../functions/accept_order.php?id=<?= $order['id'] ?>">Принять</a>
+                    <a class="order__link"
+                       href="../functions/decline_order.php?id=<?= $order['id'] ?>">Отклонить</a>
+                    <button class="order__button toggle-accordion" type="button"
+                            data-accordion-button="<?= $counter ?>"></button>
+                  </div>
+                  <ul class="order__list" data-accordion-elem="<?= $counter ?>">
+                      <?php
+                      $order_items = explode(', ', $order['products']);
+                      foreach ($order_items as $order_item) {
+                          $query
+                                  = "SELECT * FROM catalog WHERE product_id='$order_item'";
+                          $result = mysqli_query($dbc, $query);
+                          $row    = mysqli_fetch_assoc($result);
+                          ?>
+                        <li class="order__item">
+                          <h3><?= $row['name'] ?></h3>
+                          <b><?= $row['price'] ?> руб</b>
+                        </li>
+                          <?php
+                      }
+                      ?>
+                  </ul>
+                </li>
                   <?php
+                  $counter++;
               }
               
               ?>
@@ -106,5 +141,6 @@ $orders = $result -> fetch_all(MYSQLI_ASSOC);
   </section>
 </main>
 <script src="../js/nav-toggle.js"></script>
+<script src="../js/order_accordion.js"></script>
 </body>
 </html>
