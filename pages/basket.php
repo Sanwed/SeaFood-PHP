@@ -35,14 +35,15 @@ $dbc = get_dbc();
                href="catalog.php?category=seafood">Меню</a>
           </li>
           <li class="nav__item">
-            <a class="nav__link nav__link--disabled" href="basket.php">Корзина <b>
-                    <?php
-                    if ( ! empty($_SESSION['basket'])) {
-                        if (count($_SESSION['basket']) > 0) {
-                            echo count($_SESSION['basket']);
-                        }
-                    }
-                    ?>
+            <a class="nav__link nav__link--disabled" href="basket.php">Корзина
+              <b>
+                  <?php
+                  if ( ! empty($_SESSION['basket'])) {
+                      if (count($_SESSION['basket']) > 0) {
+                          echo count($_SESSION['basket']);
+                      }
+                  }
+                  ?>
               </b>
             </a>
           </li>
@@ -83,18 +84,33 @@ $dbc = get_dbc();
           $total = 0;
           
           if ( ! empty($_SESSION['basket'])) {
-              foreach ($_SESSION['basket'] as $id) {
+              foreach ($_SESSION['basket'] as $value) {
+                  $id      = $value['id'];
+                  $amount  = $value['amount'];
                   $query   = "SELECT * FROM catalog WHERE product_id = '$id'";
                   $result  = mysqli_query($dbc, $query);
                   $product = mysqli_fetch_assoc($result);
                   
-                  $total += $product['price'];
+                  $total += $product['price'] * $amount;
                   ?>
                 <li class="basket__item">
-                  <a
-                    href="../functions/remove_from_card.php?id=<?= $product['product_id'] ?>"></a>
+                  <a class="basket__delete"
+                     href="../functions/remove_from_card.php?id=<?= $product['product_id'] ?>"></a>
+                  <div class="basket__amount">
+                    <a
+                      class="basket__amount-button basket__amount-button--decrease <?php
+                        if ($amount === 1) {
+                          echo 'basket__amount-button--disabled';
+                        }
+                      ?>"
+                      href="../functions/decrease_amount.php?id=<?= $product['product_id'] ?>"></a>
+                    <span><?= $amount ?></span>
+                    <a
+                      class="basket__amount-button basket__amount-button--increase"
+                      href="../functions/increase_amount.php?id=<?= $product['product_id'] ?>"></a>
+                  </div>
                   <h3><?= $product['name'] ?></h3>
-                  <b><?= $product['price'] ?> руб</b>
+                  <b><?= $product['price'] ?>&nbsp;руб</b>
                 </li>
                   <?php
               }

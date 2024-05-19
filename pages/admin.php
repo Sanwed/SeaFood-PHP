@@ -3,13 +3,12 @@
 require_once '../functions/connect.php';
 require_once "../functions/check_status.php";
 
-$role = check_status();
-if ($role === "user") {
-    header("location: index.php");
-}
-
 session_start();
+$role = check_status();
 
+if ($role !== 'admin') {
+    header('Location: index.php');
+}
 $dbc = get_dbc();
 
 $query  = "SELECT * FROM orders WHERE status='waiting'";
@@ -113,14 +112,18 @@ $orders = $result -> fetch_all(MYSQLI_ASSOC);
                       <?php
                       $order_items = explode(', ', $order['products']);
                       foreach ($order_items as $order_item) {
+                          $order_array = explode('-', $order_item);
+                          $id          = $order_array[0];
+                          $amount      = $order_array[1];
                           $query
-                                  = "SELECT * FROM catalog WHERE product_id='$order_item'";
-                          $result = mysqli_query($dbc, $query);
-                          $row    = mysqli_fetch_assoc($result);
+                                       = "SELECT * FROM catalog WHERE product_id='$id'";
+                          $result      = mysqli_query($dbc, $query);
+                          $row         = mysqli_fetch_assoc($result);
                           ?>
                         <li class="order__item">
+                          <span><?= $amount ?></span>
                           <h3><?= $row['name'] ?></h3>
-                          <b><?= $row['price'] ?> руб</b>
+                          <b><?= $row['price'] * $amount ?>&nbsp;руб</b>
                         </li>
                           <?php
                       }

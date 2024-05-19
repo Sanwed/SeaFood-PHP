@@ -19,9 +19,7 @@ if (empty($_SESSION['auth'])) {
         } else {
             $password = $_POST['password'];
             
-            $pass_check = $password == $user['password'];
-            
-            if ($pass_check) {
+            if (password_verify($password, $user['password'])) {
                 $_SESSION['auth']  = true;
                 $_SESSION['login'] = $login;
                 header('Location: index.php');

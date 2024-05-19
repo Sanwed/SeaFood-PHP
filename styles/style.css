@@ -124,6 +124,11 @@ img {
   text-transform: capitalize;
 }
 
+.header__login--disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 .header__login::before {
   position: absolute;
   bottom: 0;
@@ -458,7 +463,6 @@ img {
   outline: none;
 }
 
-
 /*   Корзина    */
 .basket__wrapper {
   padding: 70px 150px 100px;
@@ -537,7 +541,46 @@ img {
   margin: 0 auto 0 20px;
 }
 
-.basket__item a {
+.basket__amount {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.basket__amount-button {
+  background: #fffbf8;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.basket__amount-button::before,
+.basket__amount-button::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 2px;
+  background: #18244a;
+  top: calc(50% - 1px);
+  left: calc(50% - 6px);
+}
+
+.basket__amount-button--decrease::before {
+  display: none;
+}
+
+.basket__amount-button::before {
+  transform: rotate(90deg);
+}
+
+.basket__amount-button--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.basket__delete {
   width: 30px;
   height: 30px;
   display: flex;
@@ -547,14 +590,14 @@ img {
   transition: all 0.1s linear;
 }
 
-.basket__item a:hover,
-.basket__item a:focus {
+.basket__delete:hover,
+.basket__delete:focus {
   outline: none;
   transform: scale(1.4);
 }
 
-.basket__item a::before,
-.basket__item a::after {
+.basket__delete::before,
+.basket__delete::after {
   content: '';
   width: 16px;
   height: 2px;
@@ -564,11 +607,11 @@ img {
   background: #fffbf8;
 }
 
-.basket__item a::before {
+.basket__delete::before {
   transform: rotate(45deg);
 }
 
-.basket__item a::after {
+.basket__delete::after {
   transform: rotate(-45deg);
 }
 
@@ -680,22 +723,58 @@ img {
   margin: 0 auto;
 }
 
-.admin__wrapper {
+.admin__wrapper,
+.profile__wrapper {
   max-width: 1200px;
   margin: 0 auto;
   padding: 70px 150px 100px;
 }
 
-.admin h1 {
+.admin h1,
+.profile h1 {
   font-size: 48px;
   margin: 0 0 50px;
   font-weight: 500;
 }
 
-.admin__list {
+.profile h1 {
+  margin: 0;
+}
+
+.admin__list,
+.profile__list {
   padding: 0;
   margin: 0;
   list-style: none;
+}
+
+.profile__header {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 50px;
+}
+
+.profile__header a {
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 20px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border: 1px solid #18244a;
+  background: transparent;
+  transition: all 0.2s linear;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+}
+
+.profile__header a:hover,
+.profile__header a:focus {
+  background: #dfe2ff;
+  outline: none;
 }
 
 .order__wrapper {
@@ -711,6 +790,23 @@ img {
   font-size: 24px;
   font-weight: 500;
   margin: 0 20px 0;
+}
+
+.order__status {
+  margin: 0;
+  font-size: 20px;
+}
+
+.order__status--waiting {
+  color: #ffc55a;
+}
+
+.order__status--accepted {
+  color: #4caf50;
+}
+
+.order__status--declined {
+  color: #ff7676;
 }
 
 .order__link {
@@ -755,7 +851,6 @@ img {
 .order__button::before,
 .order__button::after {
   content: '';
-  transition: all 0.1s linear;
   position: absolute;
   height: 1px;
   width: 15px;
@@ -793,6 +888,8 @@ img {
   font-weight: 500;
   margin: 0 auto 0 20px;
 }
+
+.order__item span {}
 
 .no-scroll {
   overflow: hidden;
@@ -889,8 +986,20 @@ img {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .basket__wrapper {
+  .basket__wrapper,
+  .admin__wrapper,
+  .profile__wrapper {
     padding: 60px 60px 80px;
+  }
+
+  .basket__wrapper h1,
+  .admin__wrapper h1,
+  .profile__wrapper h1 {
+    font-size: 36px;
+  }
+
+  .profile__header a {
+    font-size: 20px;
   }
 }
 
@@ -975,14 +1084,58 @@ img {
     margin-bottom: 15px;
   }
 
-  .basket__wrapper {
+  .basket__wrapper,
+  .admin__wrapper,
+  .profile__wrapper {
     padding: 15px;
   }
 
-  .basket h1 {
+  .profile__header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 0 30px;
+  }
+
+  .profile__header a {
+    width: 100%;
+  }
+
+  .order__wrapper {
+    padding: 10px;
+  }
+
+  .order__wrapper h2 {
+    margin: 0 10px 0 0;
+  }
+
+  .order__status {
+    font-size: 16px;
+  }
+
+  .order__item {
+    padding: 10px;
+  }
+
+  .order__item h3 {
+    font-size: 20px;
+    margin: 0 auto 0 0;
+  }
+
+  .order__item b {
+    font-size: 18px;
+  }
+
+  .basket__wrapper h1,
+  .admin__wrapper h1 {
     margin: 0 0 20px;
   }
-  .basket p {
+
+  .profile__wrapper h1 {
+    margin: 0;
+  }
+
+
+  .basket__wrapper p {
     font-size: 32px;
   }
 

@@ -5,6 +5,10 @@ session_start();
 
 $dbc = get_dbc();
 
+foreach ($_SESSION['basket'] as &$item) {
+    $item = implode('-', $item);
+}
+
 $orders = implode(', ', $_SESSION['basket']);
 
 if ( ! empty($_SESSION['auth'])) {
@@ -16,15 +20,12 @@ if ( ! empty($_SESSION['auth'])) {
     
     $query
         = "INSERT INTO orders (user_id, products, status) VALUES ('$user_id', '$orders', 'waiting')";
-    mysqli_query($dbc, $query);
-    header('location: ../pages/basket.php');
-    $_SESSION['basket'] = [];
 } else {
     $query
         = "INSERT INTO orders (products, status) VALUES ('$orders', 'waiting')";
-    mysqli_query($dbc, $query);
-    header('location: ../pages/basket.php');
-    $_SESSION['basket'] = [];
 }
+mysqli_query($dbc, $query);
+header('location: ../pages/basket.php');
+$_SESSION['basket'] = [];
 
 

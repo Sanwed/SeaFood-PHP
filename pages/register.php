@@ -16,8 +16,9 @@ if (empty($_SESSION['auth'])) {
         $same_user = mysqli_fetch_assoc($result);
         
         if (empty($same_user)) {
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
             $query
-                = "INSERT INTO users (login, password, role) VALUES ('$login', '$password', 'user')";
+                = "INSERT INTO users (login, password, role) VALUES ('$login', '$password_hash', 'user')";
             mysqli_query($dbc, $query);
             
             $_SESSION['auth']  = true;
