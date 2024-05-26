@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Май 06 2024 г., 16:55
+-- Время создания: Май 26 2024 г., 16:07
 -- Версия сервера: 10.4.28-MariaDB
 -- Версия PHP: 8.2.4
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- База данных: `seafood`
 --
+CREATE DATABASE IF NOT EXISTS `seafood` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `seafood`;
 
 -- --------------------------------------------------------
 
@@ -67,8 +69,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `products`, `status`) VALUES
-(1, 1, '3, 5', 'waiting'),
-(2, 1, '3, 5', 'waiting');
+(9, 4, '3-2', 'waiting'),
+(10, 4, '6-3', 'waiting'),
+(11, 4, '1-2, 7-2', 'accepted');
 
 -- --------------------------------------------------------
 
@@ -88,9 +91,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `login`, `password`, `role`) VALUES
-(1, 'sasha', '12345678', 'admin'),
-(2, 'user', '12345678', 'user'),
-(3, 'sanwed', '12345678', 'user');
+(4, 'admin', '$2y$10$7yjjtOTBVpcdholK9bcHk.LfQ.u7BuK1kHbSyp8vTOaNzO2C1ZHOK', 'admin'),
+(5, 'user', '$2y$10$zFeduflq4difyv7G1FBAJO0gO4/fdqCVvxTxdpErllYRhN0Up3xle', 'user');
 
 --
 -- Индексы сохранённых таблиц
@@ -128,13 +130,13 @@ ALTER TABLE `catalog`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
